@@ -820,6 +820,33 @@ namespace RPA_Controller
                 public static outlook.Application outlookApp = new outlook.Application();
                 public static outlook.NameSpace outlookNamespace = outlookApp.GetNamespace("MAPI");
 
+                public static String getOTP(String id, String passwd, String mailFolderName)
+                {
+                    if (id == null || passwd == null || mailFolderName == null)
+                    {
+                        return null;
+                    }
+                    outlookNamespace.Logon("Outlook", passwd, false, false);
+                    outlook.MAPIFolder myInbox;
+                    myInbox = outlookNamespace.Folders[id].Folders[mailFolderName];
+                    outlook.Items mailItems = myInbox.Items.Restrict("[Unread]=true");
+
+                    foreach (outlook.MailItem item in mailItems)
+                    {
+                        item.UnRead = false;
+                        item.Save();
+
+                        Regex reg = new Regex("[0-9]{6}");
+                        MatchCollection result = reg.Matches(item.Body.ToString());
+
+                        foreach (Match mm in result)
+                        {
+                            return mm.Groups[0].ToString();
+                        }
+
+                    }
+                    return "null";
+                }
 
                 public static bool ReadAllMail(String id, String passwd, String mailFolderName)
                 {
@@ -882,6 +909,27 @@ namespace RPA_Controller
                         outlookApp.Quit();
                     }
 
+                }
+            }
+
+            public class getNeossOTP : CodeActivity
+            {
+                [Category("Input"), RequiredArgument]
+                public InArgument<String> ID { get; set; }
+
+                [Category("Input")]
+                public InArgument<String> PW { get; set; }
+
+                [Category("Input")]
+                public InArgument<String> mailFolderName { get; set; }
+
+                [Category("Output")]
+                public OutArgument<String> otpNum { get; set; }
+                protected override void Execute(CodeActivityContext context)
+                {
+                    String result = OutlookManager.getOTP(ID.Get(context), PW.Get(context), mailFolderName.Get(context));
+
+                    otpNum.Set(context, result);
                 }
             }
 
