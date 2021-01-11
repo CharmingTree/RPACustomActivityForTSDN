@@ -78,7 +78,7 @@ namespace RPA_Controller {
                 return;
             }
             _contentLoaded = true;
-            System.Uri resourceLocater = new System.Uri("/RPA_Controller;component/readallmailfolderactivitydesigner.xaml", System.UriKind.Relative);
+            System.Uri resourceLocater = new System.Uri("/RPA_ControllerLib;component/readallmailfolderactivitydesigner.xaml", System.UriKind.Relative);
             
             #line 1 "..\..\ReadAllMailFolderActivityDesigner.xaml"
             System.Windows.Application.LoadComponent(this, resourceLocater);

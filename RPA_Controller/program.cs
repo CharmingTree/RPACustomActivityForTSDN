@@ -17,7 +17,8 @@ using System.Text.RegularExpressions;
 
 using Newtonsoft.Json;
 using Js = Newtonsoft.Json.Linq;
-
+using OpenQA.Selenium;
+using OpenQA.Selenium.IE;
 
 namespace RPA_Controller
 {
@@ -25,6 +26,7 @@ namespace RPA_Controller
     {
         namespace FileControll
         {
+            [Designer(typeof(DefaultDesigner))]
             public class ExcelFileTypeSetup : CodeActivity
             {
                 [DisplayName("FilePath"), Category("Input")]
@@ -141,6 +143,7 @@ namespace RPA_Controller
 
         namespace Assgin
         {
+            [Designer(typeof(DefaultDesigner))]
             public class ClearTable : CodeActivity
             {
                 [Category("Input"), RequiredArgument]
@@ -162,6 +165,7 @@ namespace RPA_Controller
             /*
              * DataSet 객체에 Table을 추가하는 기능.
              */
+            [Designer(typeof(DefaultDesigner))]
             public class AddTable : CodeActivity
             {
                 [Category("Input"), RequiredArgument]
@@ -228,6 +232,7 @@ namespace RPA_Controller
             /*
              * Dictionary에 요소 하나를 추가합니다.
              */
+            [Designer(typeof(DefaultDesigner))]
             public class DictionaryElementAdd : CodeActivity
             {
                 [Category("Input")]
@@ -258,6 +263,7 @@ namespace RPA_Controller
     
         namespace StringFunction
         {
+            [Designer(typeof(DefaultDesigner))]
             public class RegMatch : CodeActivity
             {
                 [Category("Input"), RequiredArgument]
@@ -305,8 +311,25 @@ namespace RPA_Controller
 
     namespace FmMismatch
     {
+        namespace Browser
+        {
+            [Designer(typeof(DefaultDesigner))]
+            public class SwitchIE : CodeActivity
+            {
+                protected override void Execute(CodeActivityContext context)
+                {
+                    IWebDriver driver = new InternetExplorerDriver("C:\\WebDriver\\bin");
+
+                    driver.SwitchTo().Frame(1);
+                }
+
+            }
+
+        }
+
         namespace Excel
         {
+            [Designer(typeof(DefaultDesigner))]
             public class PTNSystemReRegHist : CodeActivity
             {
                 [Category("Input"), RequiredArgument]
@@ -367,6 +390,7 @@ namespace RPA_Controller
              * PTN 장치등록 NEOSS 지연 등록일경우 시스템 재등록하기 위함 
              * 등록 정보와 이력 정보를 비교해 재등록 대상을 발췌함
              */
+            [Designer(typeof(DefaultDesigner))]
             public class PTNSystemReReg : CodeActivity
             {
                 [Category("Input"), RequiredArgument]
@@ -438,6 +462,7 @@ namespace RPA_Controller
              *        slotnum   2   -> 02
              * 단, 원래 숫자형 셀에 대해서는 변환하지 않음 NumbericList에서 관리 
              */
+            [Designer(typeof(DefaultDesigner))]
             public class ConvertNumbericToString : CodeActivity
             {
                 [Category("Input")]
@@ -524,6 +549,7 @@ namespace RPA_Controller
              * RPA MSPP 등록시 지역 본부별로 엑셀파일 다운 받기 때문에 하나의 파일로 병합이 필요함.
              * DaTaTable n개를 1개로 병합시킴
              */
+            [Designer(typeof(DefaultDesigner))]
             public class DT_Merge : CodeActivity
             {
 
@@ -912,6 +938,7 @@ namespace RPA_Controller
                 }
             }
 
+            [Designer(typeof(DefaultDesigner))]
             public class getNeossOTP : CodeActivity
             {
                 [Category("Input"), RequiredArgument]
@@ -969,7 +996,7 @@ namespace RPA_Controller
              * 현재 메일함 새로고침 시켜줌 'Outlook 리본탭에 모든 폴더 보내기/받기' 기능에 해당함
              */
             [Designer(typeof(RefleshOutlookActivityDesigner))]
-            public class RefleshOutlook : CodeActivity
+            public class RefleshOutlook :CodeActivity
             {
                 [DisplayName("ID"), Category("Input")]
                 [Description("Outlook 새 메일함을 업데이트 해주는 기능입니다. ")]
@@ -1011,6 +1038,7 @@ namespace RPA_Controller
             /*
              * JsonString을 DataSet으로 변환 FM 불일치에 한해서 동작 주의!!
              */
+            [Designer(typeof(DefaultDesigner))]
             public class RPARegInfo2DataSet : CodeActivity
             {
                 [Category("Input")]
@@ -1300,6 +1328,7 @@ namespace RPA_Controller
             /*
              * FM 불일치 장치등록 RPA 처리 이력 데이터를 RPC요청 하기위한 JSON Type으로 변환
              */
+            [Designer(typeof(DefaultDesigner))]
             public class RPAHistory2Json : CodeActivity
             {
                 [Category("Input")]
@@ -1476,6 +1505,7 @@ namespace RPA_Controller
             때문에 &amp를 다시 &로 변경해주는 후처리 필요
             (UIPATH에서 강제로 붙이기 때문에 옵션 ON/OFF 으로 처리가 불가)
            ############################################################### */
+            [Designer(typeof(DefaultDesigner))]
             public class MetaStringConverter : CodeActivity
             {
                 enum meta { amp, lt, gt, quot, sharp, apostrophe };
@@ -1530,6 +1560,7 @@ namespace RPA_Controller
             /* ###############################################################
                 DataTable to JSON Format String Converter
                ###############################################################*/
+            [Designer(typeof(DefaultDesigner))]
             public class DataTableToJSON : CodeActivity
             {
                 [Category("Input")]
@@ -1577,6 +1608,7 @@ namespace RPA_Controller
             /* ###############################################################
             FM불일치 4형장치등록 프로세서 실행 요일 관리
            ###############################################################*/
+            [Designer(typeof(DefaultDesigner))]
             public class RPA_ExcuteYN : CodeActivity
             {
 
@@ -1624,6 +1656,7 @@ namespace RPA_Controller
     {
         namespace RPC
         {
+            [Designer(typeof(DefaultDesigner))]
             public class EmsRpcRequest : CodeActivity
             {
                 [Category("Input"), RequiredArgument]
@@ -1693,6 +1726,7 @@ namespace RPA_Controller
             /*
              * 텔레필드 EMS 등록정보중 NeName을 분리하여 입력받도록 되어 있기 때문에 파싱한다. 
              */
+            [Designer(typeof(DefaultDesigner))]
             public class TFSysnameParser : CodeActivity
             {
                 [Category("Input"), RequiredArgument]
@@ -1753,6 +1787,7 @@ namespace RPA_Controller
              * cot-id 10~98
              * rt-id 0~98
              */
+            [Designer(typeof(DefaultDesigner))]
             public class TFTidParser : CodeActivity
             {
                 [Category("Input"), RequiredArgument]
@@ -1806,6 +1841,7 @@ namespace RPA_Controller
             /*
              * EMS 자동등록시 해당건(row)에 대해 결과 여부를 이력 테이블에 업데이트 하는 기능 수행
              */
+            [Designer(typeof(DefaultDesigner))]
             public class HistUpdate : CodeActivity
             {
                 [Category("Input"), RequiredArgument]
@@ -1937,6 +1973,7 @@ namespace RPA_Controller
             /*
              * DictionaryList를 DataSet형태로 반환
              */
+            [Designer(typeof(DefaultDesigner))]
             public class DictionaryListToDataSetActivity : CodeActivity
             {
                 private List<Dictionary<String, String>> convertedDictionaryList { get; set; }
@@ -2197,6 +2234,7 @@ namespace RPA_Controller
              * <p># @Tag       : -
              * <p># @Desc      : Dictionary to JsonString
              * =-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=- */
+            [Designer(typeof(DefaultDesigner))]
             public class DictionaryToJsonString : CodeActivity
             {
                 [Category("Input"), RequiredArgument, Description("Dictionary <String, String>")]
@@ -2237,6 +2275,7 @@ namespace RPA_Controller
              * <p># @Tag       : -
              * <p># @Desc      : DictionaryList<String,String> to JsonString
              * =-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=- */
+            [Designer(typeof(DefaultDesigner))]
             public class DictionaryListToJsonString : CodeActivity
             {
                 [Category("Input"), RequiredArgument, Description("List<Dictionary<String, String>>")]
@@ -2266,6 +2305,7 @@ namespace RPA_Controller
             /*
              * JsonString => List<Dictionary<String, String>> 으로 변환
              */
+            [Designer(typeof(DefaultDesigner))]
             public class JsonStringToDictionaryList : CodeActivity
             {
                 private String convertedJson { get; set; }
@@ -2396,6 +2436,7 @@ namespace RPA_Controller
                 }
             }
 
+            [Designer(typeof(DefaultDesigner))]
             public class EmsRegHistToJson : CodeActivity
             {
                 [Category("Input"), RequiredArgument]
@@ -2457,6 +2498,7 @@ namespace RPA_Controller
             /*
              * 벤더 선택후 정렬
              */
+            [Designer(typeof(DefaultDesigner))]
             public class SelectVendorByDictionaryList : CodeActivity
             {
 
@@ -2595,6 +2637,7 @@ namespace RPA_Controller
             /*
              * EMS 미등록 건 리스트 반환
              */
+            [Designer(typeof(DefaultDesigner))]
             public class SelectUnRegByHist : CodeActivity
             {
                 private DataSet histDataSet { get; set; }
@@ -2682,6 +2725,7 @@ namespace RPA_Controller
             /*
              * 임시 수작업으로 등록제외하고 싶은 리스트를 처리하기 위해서 기능 생성
              */
+            [Designer(typeof(DefaultDesigner))]
             public class RegListFilter : CodeActivity {
 
                 [Category("Input"), RequiredArgument]
